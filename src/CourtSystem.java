@@ -14,7 +14,7 @@ public class CourtSystem {
     // 初始化系统（默认添加测试数据）
     public void initSystem() {
         // 添加管理员
-        adminList.add(new Admin("admin001", "管理员小张", "13800138000", "admin123"));
+        adminList.add(new Admin("admin", "管理员", "13800138000", "admin"));
         // 添加场地
         courtList.add(new Court("court001", "单打", "可用"));
         courtList.add(new Court("court002", "双打", "可用"));
@@ -238,6 +238,23 @@ public class CourtSystem {
     }
 
     // 辅助方法：取消预约
+//    private void cancelReservation(Student student) {
+//        System.out.println("\n===== 取消预约 =====");
+//        showMyReservations(student);
+//        if (student.getMyReservations().isEmpty()) {
+//            return;
+//        }
+//        System.out.print("请输入要取消的预约编号：");
+//        String resId = scanner.nextLine();
+//
+//        for (Reservation res : student.getMyReservations()) {
+//            if (res.getReservationId().equals(resId)) {
+//                res.cancelReservation();
+//                return;
+//            }
+//        }
+//        System.out.println("未找到该预约编号！");
+//    }
     private void cancelReservation(Student student) {
         System.out.println("\n===== 取消预约 =====");
         showMyReservations(student);
@@ -247,15 +264,27 @@ public class CourtSystem {
         System.out.print("请输入要取消的预约编号：");
         String resId = scanner.nextLine();
 
+        // 用于存储找到的预约（避免遍历中删除元素导致异常）
+        Reservation targetRes = null;
         for (Reservation res : student.getMyReservations()) {
             if (res.getReservationId().equals(resId)) {
-                res.cancelReservation();
-                return;
+                targetRes = res;
+                break;
             }
         }
-        System.out.println("未找到该预约编号！");
-    }
 
+        if (targetRes != null) {
+            // 先校验并更新状态（原逻辑保留）
+            targetRes.cancelReservation();
+            // 从学生个人列表中删除
+            student.getMyReservations().remove(targetRes);
+            // 从系统全局列表中删除
+            reservationList.remove(targetRes);
+            System.out.println("预约信息已删除！");
+        } else {
+            System.out.println("未找到该预约编号！");
+        }
+    }
     // 辅助方法：查看我的预约
     private void showMyReservations(Student student) {
         System.out.println("\n===== 我的预约列表 =====");
