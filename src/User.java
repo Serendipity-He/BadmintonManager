@@ -9,10 +9,9 @@ public abstract class User {
         this.password = password;
     }
 
-    // 抽象登录方法（子类实现）
+
     public abstract boolean login(String inputPwd);
 
-    // 查看用户信息
     public void showInfo() {
         System.out.println("姓名：" + name + "，联系电话：" + phone);
     }
