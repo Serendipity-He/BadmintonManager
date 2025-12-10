@@ -20,15 +20,6 @@ public class Admin extends User {
         super.showInfo();
     }
 
-    // 确认预约完成（管理员功能）
-    public void confirmReservation(Reservation res) {
-        if (res.getStatus().equals("待使用")) {
-            res.setStatus("已完成");
-            System.out.println("预约" + res.getReservationId() + "已标记为【已完成】");
-        } else {
-            System.out.println("仅可确认【待使用】状态的预约！");
-        }
-    }
 
     // getter
     public String getAdminId() { return adminId; }

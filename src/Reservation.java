@@ -16,12 +16,12 @@ public class Reservation {
 
     // 取消预约（学生功能）
     public void cancelReservation() {
-        if (this.status.equals("待使用")) {
-            this.status = "已取消";
-            System.out.println("预约" + reservationId + "已取消！");
-        } else {
+        if (!this.status.equals("待使用")) {
             System.out.println("仅可取消【待使用】状态的预约！");
+            throw new IllegalArgumentException("无效的预约状态"); // 用于中断删除流程
         }
+        this.status = "已取消"; // 状态更新仅作为临时标记
+        System.out.println("预约" + reservationId + "已取消！");
     }
 
     // 查看预约信息
